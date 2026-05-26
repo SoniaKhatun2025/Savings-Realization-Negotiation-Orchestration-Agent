@@ -1,0 +1,16 @@
+fastapi
+uvicorn
+pymysql
+python-jose
+passlib[bcrypt]
+python-dotenv
+langchain
+langchain-core
+langchain-community
+langchain-ollama
+langchain-huggingface
+chromadb
+sentence-transformers
+python-multipart
+pypdf
+pandas

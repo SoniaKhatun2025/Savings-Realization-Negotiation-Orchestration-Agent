@@ -1,0 +1,12 @@
+venv
+env
+.env
+.zip
+.yml
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+node_modules
+dist
+build
