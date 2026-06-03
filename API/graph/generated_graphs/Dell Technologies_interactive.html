@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Knowledge Graph - Dell Technologies</title>
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <style type="text/css">
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+        header {
+            background-color: #1e293b;
+            padding: 15px 20px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #334155;
+            z-index: 10;
+        }
+        h1 { margin: 0; font-size: 20px; font-weight: 600; color: #38bdf8; }
+        .subtitle { font-size: 12px; color: #94a3b8; margin-top: 4px; }
+        #network {
+            width: 100%;
+            height: calc(100vh - 80px);
+            min-height: 500px;
+            background-color: #0f172a;
+        }
+        #info-panel {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 320px;
+            max-height: 400px;
+            background-color: rgba(30, 41, 59, 0.95);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.3);
+            overflow-y: auto;
+            backdrop-filter: blur(8px);
+            z-index: 10;
+        }
+        h3 { margin-top: 0; color: #38bdf8; border-bottom: 1px solid #334155; padding-bottom: 8px; font-size: 16px; }
+        .prop-row { display: flex; justify-content: space-between; font-size: 13px; margin: 8px 0; }
+        .prop-label { color: #94a3b8; font-weight: 500; }
+        .prop-value { color: #f8fafc; font-weight: 600; text-align: right; word-break: break-all; max-width: 180px; }
+        .legend {
+            position: absolute;
+            top: 100px;
+            left: 20px;
+            background-color: rgba(30, 41, 59, 0.9);
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 12px;
+            z-index: 10;
+        }
+        .legend-item { display: flex; align-items: center; margin: 6px 0; }
+        .legend-color { width: 12px; height: 12px; border-radius: 50%; margin-right: 8px; }
+    </style>
+</head>
+<body>
+    <header>
+        <div>
+            <h1>NexusProcure Knowledge Graph</h1>
+            <div class="subtitle">Interactive Supplier Profile & Sourcing Network: <strong>Dell Technologies</strong></div>
+        </div>
+        <div style="font-size: 12px; color: #94a3b8;">Click & drag nodes to explore relationships. Zoom with scroll.</div>
+    </header>
+    
+    <div class="legend">
+        <strong style="display:block; margin-bottom: 8px; color: #38bdf8;">Node Legend</strong>
+        
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #38bdf8;"></div>
+                    <span>Supplier</span>
+                </div>
+            
+
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #a78bfa;"></div>
+                    <span>Category</span>
+                </div>
+            
+
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #f87171;"></div>
+                    <span>Invoice</span>
+                </div>
+            
+
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #4ade80;"></div>
+                    <span>Contract</span>
+                </div>
+            
+
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #fbbf24;"></div>
+                    <span>Opportunity</span>
+                </div>
+            
+
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #f472b6;"></div>
+                    <span>Negotiation</span>
+                </div>
+            
+
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #2dd4bf;"></div>
+                    <span>Savings</span>
+                </div>
+            
+
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #94a3b8;"></div>
+                    <span>Benchmark</span>
+                </div>
+            
+    </div>
+
+    <div id="network"></div>
+
+    <div id="info-panel">
+        <h3>Node Inspector</h3>
+        <div id="info-content">
+            <p style="color: #94a3b8; font-size: 13px;">Select any node in the graph network to inspect its detailed metadata and properties.</p>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        // Node details lookup
+        const nodeDetails = {"dell_technologies": {"type": "Supplier", "properties": {"name": "Dell Technologies", "category": "General Procurement", "risk_level": "Medium", "historical_discount": 8.5}}, "OPP-A073AA45": {"type": "Opportunity", "properties": {"category": "IT Hardware", "current_spend": 120000.0, "benchmark_spend": 95000.0, "variance_amount": 25000.0, "savings_potential": 25000.0, "confidence_score": 95, "risk_level": "Medium", "priority_score": 5, "status": "In Progress"}}, "DOC-1": {"type": "Invoice", "properties": {"filename": "Invoice_Data.xlsx", "doc_type": "Invoice", "status": "Indexed", "extraction_status": "Complete (1 chunks)", "uploaded_at": "", "uploaded_by": "", "amount": 120000.0, "benchmark": 95000.0}}, "CAT-it_hardware": {"type": "Category", "properties": {"name": "IT Hardware"}}, "BM-it_hardware": {"type": "Benchmark", "properties": {"category": "IT Hardware", "benchmark_value": 95000.0}}, "DOC-2": {"type": "Contract", "properties": {"filename": "PO_Data.xlsx", "doc_type": "Contract", "status": "Indexed", "extraction_status": "Complete (1 chunks)", "uploaded_at": "", "uploaded_by": ""}}, "DOC-3": {"type": "Contract", "properties": {"filename": "Pricing_Benchmark.xlsx", "uploaded_at": "", "uploaded_by": ""}}, "NEG-2": {"type": "Negotiation", "properties": {"target_price": 100000.0, "walkaway_price": 125000.0, "expected_savings": 20000.0, "status": "Outreach Sent", "actual_price": 115000.0, "realised_savings": 5000.0, "talking_points": "[\"Given the current spend of $120,000 and benchmark spend of $95,000, we are looking to achieve a savings of $25,000.\", \"Our analysis shows that Dell Technologies has a history of being willing to discount. We believe this opportunity presents an ideal chance for us to negotiate a more favorable price.\", \"We value our long-standing relationship with Dell Technologies and would like to continue this partnership, but we need to ensure the cost is aligned with our budget.\"]"}}, "SAV-2": {"type": "Savings", "properties": {"planned_savings": 20000.0, "realized_savings": 5000.0, "status": "Pending Validation"}}, "OPP-6F860891": {"type": "Opportunity", "properties": {"category": "General Procurement", "current_spend": 120000.0, "benchmark_spend": 95000.0, "variance_amount": 25000.0, "savings_potential": 25000.0, "confidence_score": 95, "risk_level": "Medium", "priority_score": 5, "status": "In Progress"}}, "CAT-general_procurement": {"type": "Category", "properties": {"name": "General Procurement"}}, "DOC-5": {"type": "Invoice", "properties": {"filename": "Invoice_Data.xlsx", "uploaded_at": "", "uploaded_by": "", "amount": 120000.0, "benchmark": 95000.0}}, "BM-general_procurement": {"type": "Benchmark", "properties": {"category": "General Procurement", "benchmark_value": 95000.0}}, "DOC-6": {"type": "Pricing Sheet", "properties": {"filename": "PO_Data.xlsx", "uploaded_at": "", "uploaded_by": ""}}, "DOC-7": {"type": "Pricing Sheet", "properties": {"filename": "Pricing_Benchmark.xlsx", "uploaded_at": "", "uploaded_by": ""}}, "OPP-4803640E": {"type": "Opportunity", "properties": {"category": "IT Hardware", "current_spend": 120000.0, "benchmark_spend": 95000.0, "variance_amount": 25000.0, "savings_potential": 25000.0, "confidence_score": 95, "risk_level": "Medium", "priority_score": 80, "status": "Pending Analysis"}}, "DOC-8": {"type": "Contract", "properties": {"filename": "Supplier_Contract_Sample.pdf", "uploaded_at": "", "uploaded_by": ""}}, "NEG-3": {"type": "Negotiation", "properties": {"target_price": 100000.0, "walkaway_price": 125000.0, "expected_savings": 20000.0, "status": "Pending Approval", "actual_price": 109999.0, "realised_savings": 10001.0, "talking_points": "[\"Given the current spend of $120,000 and benchmark spend of $95,000, we see a variance of $25,000.\", \"Our analysis indicates a potential savings of $25,000 for this opportunity.\", \"Dell Technologies has shown a willingness to discount in the past. We believe that with our current spend and priority level, we can negotiate a more favorable price.\"]"}}, "SAV-3": {"type": "Savings", "properties": {"planned_savings": 20000.0, "realized_savings": 10001.0, "status": "Pending Validation"}}, "NEG-4": {"type": "Negotiation", "properties": {"target_price": 100000.0, "walkaway_price": 125000.0, "expected_savings": 20000.0, "status": "Assigned"}}, "OPP-E179AF41": {"type": "Opportunity", "properties": {"category": "General Procurement", "current_spend": 120000.0, "benchmark_spend": 95000.0, "variance_amount": 25000.0, "savings_potential": 25000.0, "confidence_score": 95, "risk_level": "Medium", "priority_score": 80, "status": "Pending Analysis"}}, "OPP-97D8A170": {"type": "Opportunity", "properties": {"category": "IT Hardware", "current_spend": 120000.0, "benchmark_spend": 95000.0, "variance_amount": 25000.0, "savings_potential": 25000.0, "confidence_score": 95, "risk_level": "Medium", "priority_score": 80, "status": "Pending Analysis"}}, "DOC-4": {"type": "Contract", "properties": {"filename": "Supplier_Contract_Sample.pdf", "uploaded_at": "", "uploaded_by": ""}}, "NEG-1": {"type": "Negotiation", "properties": {"target_price": 100000.0, "walkaway_price": 125000.0, "expected_savings": 20000.0, "status": "Assigned"}}};
+
+        // Create Vis-Network datasets
+        const nodes = new vis.DataSet([{"id": "dell_technologies", "label": "Dell Technologies\nGeneral Procurement | Disc: 8.5%", "color": {"background": "#38bdf8", "border": "#0369a1", "highlight": {"background": "#38bdf8", "border": "#0284c7"}}, "shape": "circle", "size": 25}, {"id": "OPP-A073AA45", "label": "OPP-A073AA45\nSpend: ₹120k | Sav: ₹25k\nStatus: In Progress", "color": {"background": "#fbbf24", "border": "#b45309", "highlight": {"background": "#38bdf8", "border": "#0284c7"}}, "shape": "diamond", "size": 22}, {"id": "DOC-1", "label": "DOC-1\n₹120k | Invoice_D...", "color": {"background": "#f87171", "border": "#b91c1c", "highlight": {"background": "#38bdf8", "border": "#0284c7"}}, "shape": "hexagon", "size": 22}, {"id": "CAT-it_hardware", "label": "IT Hardware", "color": {"background": "#a78bfa", "border": "#6d28d9", "highlight": {"background": "#38bdf8", "border": "#0284c7"}}, "shape": "database", "size": 25}, {"id": "BM-it_hardware", "label": "BM-it_hardware\nVal: ₹95k", "color": {"background": "#94a3b8", "border": "#475569", "highlight": {"background": "#38bdf8", "border": "#0284c7"}}, "shape": "triangle", "size": 18}, {"id": "DOC-2", "label": "DOC-2\nPO_Data.xlsx", "color": {"background": "#4ade80", "border": "#15803d", "highlight": {"background": "#38bdf8", "border": "#0284c7"}}, "shape": "square", "size": 22}, {"id": "DOC-3", "label": "DOC-3\nPricing_B...", "color": {"background": "#4ade80", "border": "#15803d", "highlight": {"background": "#38bdf8", "border": "#0284c7"}}, "shape": "square", "size": 22}, {"id": "NEG-2", "label": "NEG-2\nTgt: ₹100k | Exp: ₹20k\nStatus: Outreach Sent", "color": {"background": "#f472b6", "border": "#be185d", "highlight": {"background": "#38bdf8", "border": "#0284c7"}}, "shape": "box", "size": 25}, {"id": "SAV-2", "label": "SAV-2\nRealized: ₹5k\nStatus: Pending Validation", "color": {"background": "#2dd4bf", "border": "#0f766e", "highlight": {"background": "#38bdf8", "border": "#0284c7"}}, "shape": "star", "size": 22}, {"id": "OPP-6F860891", "label": "OPP-6F860891\nSpend: ₹120k | Sav: ₹25k\nStatus: In Progress", "color": {"background": "#fbbf24", "border": "#b45309", "highlight": {"background": "#38bdf8", "border": "#0284c7"}}, "shape": "diamond", "size": 22}, {"id": "CAT-general_procurement", "label": "General Procurement", "color": {"background": "#a78bfa", "border": "#6d28d9", "highlight": {"background": "#38bdf8", "border": "#0284c7"}}, "shape": "database", "size": 25}, {"id": "DOC-5", "label": "DOC-5\n₹120k | Invoice_D...", "color": {"background": "#f87171", "border": "#b91c1c", "highlight": {"background": "#38bdf8", "border": "#0284c7"}}, "shape": "hexagon", "size": 22}, {"id": "BM-general_procurement", "label": "BM-general_procurement\nVal: ₹95k", "color": {"background": "#94a3b8", "border": "#475569", "highlight": {"background": "#38bdf8", "border": "#0284c7"}}, "shape": "triangle", "size": 18}, {"id": "DOC-6", "label": "DOC-6\nPO_Data.xlsx", "color": {"background": "#e2e8f0", "border": "#334155", "highlight": {"background": "#38bdf8", "border": "#0284c7"}}, "shape": "dot", "size": 25}, {"id": "DOC-7", "label": "DOC-7\nPricing_B...", "color": {"background": "#e2e8f0", "border": "#334155", "highlight": {"background": "#38bdf8", "border": "#0284c7"}}, "shape": "dot", "size": 25}, {"id": "OPP-4803640E", "label": "OPP-4803640E\nSpend: ₹120k | Sav: ₹25k\nStatus: Pending Analysis", "color": {"background": "#fbbf24", "border": "#b45309", "highlight": {"background": "#38bdf8", "border": "#0284c7"}}, "shape": "diamond", "size": 22}, {"id": "DOC-8", "label": "DOC-8\nSupplier_...", "color": {"background": "#4ade80", "border": "#15803d", "highlight": {"background": "#38bdf8", "border": "#0284c7"}}, "shape": "square", "size": 22}, {"id": "NEG-3", "label": "NEG-3\nTgt: ₹100k | Exp: ₹20k\nStatus: Pending Approval", "color": {"background": "#f472b6", "border": "#be185d", "highlight": {"background": "#38bdf8", "border": "#0284c7"}}, "shape": "box", "size": 25}, {"id": "SAV-3", "label": "SAV-3\nRealized: ₹10k\nStatus: Pending Validation", "color": {"background": "#2dd4bf", "border": "#0f766e", "highlight": {"background": "#38bdf8", "border": "#0284c7"}}, "shape": "star", "size": 22}, {"id": "NEG-4", "label": "NEG-4\nTgt: ₹100k | Exp: ₹20k\nStatus: Assigned", "color": {"background": "#f472b6", "border": "#be185d", "highlight": {"background": "#38bdf8", "border": "#0284c7"}}, "shape": "box", "size": 25}, {"id": "OPP-E179AF41", "label": "OPP-E179AF41\nSpend: ₹120k | Sav: ₹25k\nStatus: Pending Analysis", "color": {"background": "#fbbf24", "border": "#b45309", "highlight": {"background": "#38bdf8", "border": "#0284c7"}}, "shape": "diamond", "size": 22}, {"id": "OPP-97D8A170", "label": "OPP-97D8A170\nSpend: ₹120k | Sav: ₹25k\nStatus: Pending Analysis", "color": {"background": "#fbbf24", "border": "#b45309", "highlight": {"background": "#38bdf8", "border": "#0284c7"}}, "shape": "diamond", "size": 22}, {"id": "DOC-4", "label": "DOC-4\nSupplier_...", "color": {"background": "#4ade80", "border": "#15803d", "highlight": {"background": "#38bdf8", "border": "#0284c7"}}, "shape": "square", "size": 22}, {"id": "NEG-1", "label": "NEG-1\nTgt: ₹100k | Exp: ₹20k\nStatus: Assigned", "color": {"background": "#f472b6", "border": "#be185d", "highlight": {"background": "#38bdf8", "border": "#0284c7"}}, "shape": "box", "size": 25}]);
+        const edges = new vis.DataSet([{"from": "dell_technologies", "to": "OPP-A073AA45", "label": "HAS_OPPORTUNITY"}, {"from": "dell_technologies", "to": "DOC-1", "label": "HAS_DOCUMENT"}, {"from": "dell_technologies", "to": "CAT-it_hardware", "label": "BELONGS_TO_CATEGORY"}, {"from": "dell_technologies", "to": "DOC-1", "label": "HAS_INVOICE"}, {"from": "DOC-1", "to": "BM-it_hardware", "label": "EXCEEDS_BENCHMARK"}, {"from": "DOC-1", "to": "OPP-A073AA45", "label": "GENERATED_OPPORTUNITY"}, {"from": "dell_technologies", "to": "DOC-2", "label": "HAS_DOCUMENT"}, {"from": "dell_technologies", "to": "DOC-2", "label": "HAS_CONTRACT"}, {"from": "dell_technologies", "to": "DOC-3", "label": "HAS_CONTRACT"}, {"from": "dell_technologies", "to": "NEG-2", "label": "HAS_NEGOTIATION"}, {"from": "OPP-A073AA45", "to": "NEG-2", "label": "HAS_NEGOTIATION_PLAYBOOK"}, {"from": "NEG-2", "to": "SAV-2", "label": "EXPECTS_SAVINGS"}, {"from": "dell_technologies", "to": "OPP-6F860891", "label": "HAS_OPPORTUNITY"}, {"from": "dell_technologies", "to": "CAT-general_procurement", "label": "BELONGS_TO_CATEGORY"}, {"from": "dell_technologies", "to": "DOC-5", "label": "HAS_INVOICE"}, {"from": "DOC-5", "to": "BM-general_procurement", "label": "EXCEEDS_BENCHMARK"}, {"from": "DOC-5", "to": "OPP-6F860891", "label": "GENERATED_OPPORTUNITY"}, {"from": "dell_technologies", "to": "DOC-6", "label": "HAS_INVOICE"}, {"from": "dell_technologies", "to": "DOC-7", "label": "HAS_INVOICE"}, {"from": "dell_technologies", "to": "OPP-4803640E", "label": "HAS_OPPORTUNITY"}, {"from": "dell_technologies", "to": "DOC-8", "label": "HAS_CONTRACT"}, {"from": "dell_technologies", "to": "NEG-3", "label": "HAS_NEGOTIATION"}, {"from": "OPP-6F860891", "to": "NEG-3", "label": "HAS_NEGOTIATION_PLAYBOOK"}, {"from": "NEG-3", "to": "SAV-3", "label": "EXPECTS_SAVINGS"}, {"from": "dell_technologies", "to": "NEG-4", "label": "HAS_NEGOTIATION"}, {"from": "OPP-4803640E", "to": "NEG-4", "label": "HAS_NEGOTIATION_PLAYBOOK"}, {"from": "dell_technologies", "to": "OPP-E179AF41", "label": "HAS_OPPORTUNITY"}, {"from": "DOC-1", "to": "BM-general_procurement", "label": "EXCEEDS_BENCHMARK"}, {"from": "DOC-1", "to": "OPP-E179AF41", "label": "GENERATED_OPPORTUNITY"}, {"from": "dell_technologies", "to": "DOC-2", "label": "HAS_INVOICE"}, {"from": "dell_technologies", "to": "DOC-3", "label": "HAS_INVOICE"}, {"from": "dell_technologies", "to": "OPP-97D8A170", "label": "HAS_OPPORTUNITY"}, {"from": "dell_technologies", "to": "DOC-4", "label": "HAS_CONTRACT"}, {"from": "dell_technologies", "to": "NEG-1", "label": "HAS_NEGOTIATION"}, {"from": "OPP-97D8A170", "to": "NEG-1", "label": "HAS_NEGOTIATION_PLAYBOOK"}]);
+
+        // Network Configuration
+        const container = document.getElementById('network');
+        const data = { nodes: nodes, edges: edges };
+        const options = {
+            nodes: {
+                font: { color: '#f8fafc', size: 10, face: 'Segoe UI' },
+                borderWidth: 2,
+                shadow: true
+            },
+            edges: {
+                color: { color: '#475569', highlight: '#38bdf8', hover: '#38bdf8' },
+                arrows: { to: { enabled: true, scaleFactor: 0.6 } },
+                font: { size: 8, strokeWidth: 0, color: '#94a3b8', face: 'Segoe UI' },
+                width: 1.2,
+                smooth: { type: 'curvedCW', roundness: 0.2 }
+            },
+            physics: {
+                barnesHut: {
+                    gravitationalConstant: -7000,
+                    centralGravity: 0.3,
+                    springLength: 220,
+                    springConstant: 0.04,
+                    damping: 0.09
+                },
+                stabilization: { iterations: 150 }
+            },
+            interaction: { hover: true }
+        };
+
+        const network = new vis.Network(container, data, options);
+
+        // Select Node Listener
+        network.on("selectNode", function (params) {
+            const nodeId = params.nodes[0];
+            const detail = nodeDetails[nodeId];
+            if (!detail) return;
+
+            let html = `<h3>${detail.type}: ${nodeId}</h3>`;
+            
+            // Format properties beautifully
+            if (detail.properties && Object.keys(detail.properties).length > 0) {
+                for (const [key, value] of Object.entries(detail.properties)) {
+                    let displayVal = value;
+                    if (typeof value === 'object') {
+                        displayVal = JSON.stringify(value);
+                    } else if (typeof value === 'number') {
+                        // Currency format if it looks like spend or savings
+                        if (key.includes('spend') || key.includes('amount') || key.includes('potential') || key.includes('savings') || key.includes('price')) {
+                            displayVal = '$' + value.toLocaleString();
+                        }
+                    }
+                    
+                    // Human readable key labels
+                    const label = key.replace(/_/g, ' ').replace(/\w/g, c => c.toUpperCase());
+                    
+                    html += `
+                        <div class="prop-row">
+                            <span class="prop-label">${label}</span>
+                            <span class="prop-value">${displayVal}</span>
+                        </div>
+                    `;
+                }
+            } else {
+                html += `<p style="color: #94a3b8; font-size: 13px;">No explicit properties recorded for this node.</p>`;
+            }
+
+            document.getElementById('info-content').innerHTML = html;
+        });
+
+        // Deselect Listener
+        network.on("deselectNode", function (params) {
+            document.getElementById('info-content').innerHTML = `
+                <p style="color: #94a3b8; font-size: 13px;">Select any node in the graph network to inspect its detailed metadata and properties.</p>
+            `;
+        });
+    </script>
+</body>
+</html>

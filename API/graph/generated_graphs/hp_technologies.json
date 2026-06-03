@@ -1,0 +1,130 @@
+{
+  "supplier": "Hp Technologies",
+  "nodes": [
+    {
+      "id": "hp_technologies",
+      "type": "Supplier",
+      "properties": {
+        "name": "Hp Technologies",
+        "category": "IT Hardware",
+        "risk_level": "Medium",
+        "historical_discount": 8.5
+      }
+    },
+    {
+      "id": "OPP-987B0ECA",
+      "type": "Opportunity",
+      "properties": {
+        "category": "IT Hardware",
+        "current_spend": 170000.0,
+        "benchmark_spend": 140000.0,
+        "variance_amount": 30000.0,
+        "savings_potential": 30000.0,
+        "confidence_score": 95,
+        "risk_level": "Medium",
+        "priority_score": 5,
+        "status": "In Progress"
+      }
+    },
+    {
+      "id": "CAT-it_hardware",
+      "type": "Category",
+      "properties": {
+        "name": "IT Hardware"
+      }
+    },
+    {
+      "id": "DOC-4",
+      "type": "Invoice",
+      "properties": {
+        "filename": "sample_invoice.txt",
+        "uploaded_at": "",
+        "uploaded_by": "",
+        "amount": 170000.0,
+        "benchmark": 140000.0
+      }
+    },
+    {
+      "id": "BM-it_hardware",
+      "type": "Benchmark",
+      "properties": {
+        "category": "IT Hardware",
+        "benchmark_value": 140000.0
+      }
+    },
+    {
+      "id": "NEG-1",
+      "type": "Negotiation",
+      "properties": {
+        "target_price": 140000.0,
+        "walkaway_price": 165000.0,
+        "expected_savings": 30000.0,
+        "status": "Pending Approval",
+        "actual_price": 150000.0,
+        "realised_savings": 20000.0,
+        "talking_points": "[\"Given the current spend of $170,000 and benchmark spend of $140,000, we see a variance of $30,000.\", \"Our analysis indicates a potential savings of $30,000. We believe this is achievable given your past performance and willingness to discount.\", \"We value our partnership with Hp Technologies and would like to work together towards achieving these savings.\"]"
+      }
+    },
+    {
+      "id": "SAV-1",
+      "type": "Savings",
+      "properties": {
+        "planned_savings": 30000.0,
+        "realized_savings": 20000.0,
+        "status": "Pending Validation"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "hp_technologies",
+      "target": "OPP-987B0ECA",
+      "relationship": "HAS_OPPORTUNITY",
+      "properties": {}
+    },
+    {
+      "source": "hp_technologies",
+      "target": "CAT-it_hardware",
+      "relationship": "BELONGS_TO_CATEGORY",
+      "properties": {}
+    },
+    {
+      "source": "hp_technologies",
+      "target": "DOC-4",
+      "relationship": "HAS_INVOICE",
+      "properties": {}
+    },
+    {
+      "source": "DOC-4",
+      "target": "BM-it_hardware",
+      "relationship": "EXCEEDS_BENCHMARK",
+      "properties": {
+        "variance": 30000.0
+      }
+    },
+    {
+      "source": "DOC-4",
+      "target": "OPP-987B0ECA",
+      "relationship": "GENERATED_OPPORTUNITY",
+      "properties": {}
+    },
+    {
+      "source": "hp_technologies",
+      "target": "NEG-1",
+      "relationship": "HAS_NEGOTIATION",
+      "properties": {}
+    },
+    {
+      "source": "OPP-987B0ECA",
+      "target": "NEG-1",
+      "relationship": "HAS_NEGOTIATION_PLAYBOOK",
+      "properties": {}
+    },
+    {
+      "source": "NEG-1",
+      "target": "SAV-1",
+      "relationship": "EXPECTS_SAVINGS",
+      "properties": {}
+    }
+  ]
+}

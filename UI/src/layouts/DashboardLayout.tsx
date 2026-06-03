@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Database, Briefcase, MessageSquare, PieChart, LogOut, Menu } from 'lucide-react';
+import { LayoutDashboard, Database, Briefcase, MessageSquare, PieChart, LogOut, Menu, ShieldAlert } from 'lucide-react';
 import Topbar from './Topbar';
 
 const DashboardLayout: React.FC = () => {
@@ -54,9 +54,21 @@ const DashboardLayout: React.FC = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/dashboard/knowledge-base" title="Knowledge Base">
+                <Link to="/dashboard/supplier-analytics" title="Supplier Analytics">
+                  <PieChart size={20} />
+                  {isExpanded && <span>Supplier Analytics</span>}
+                </Link>
+              </li>
+              <li>
+                <Link to="/dashboard/knowledge-base" title="Knowledge Base & Upload">
                   <Database size={20} />
-                  {isExpanded && <span>Knowledge Base</span>}
+                  {isExpanded && <span>Knowledge Base & Upload</span>}
+                </Link>
+              </li>
+              <li>
+                <Link to="/dashboard/audit-logs" title="System Audit Logs">
+                  <ShieldAlert size={20} />
+                  {isExpanded && <span>System Audit Logs</span>}
                 </Link>
               </li>
             </>
@@ -71,15 +83,21 @@ const DashboardLayout: React.FC = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/dashboard/opportunity-queue" title="Opportunity Queue">
-                  <Briefcase size={20} />
-                  {isExpanded && <span>Opportunity Queue</span>}
+                <Link to="/dashboard/knowledge-base" title="Knowledge Base & Upload">
+                  <Database size={20} />
+                  {isExpanded && <span>Knowledge Base & Upload</span>}
                 </Link>
               </li>
               <li>
                 <Link to="/dashboard/supplier-analytics" title="Supplier Analytics">
                   <PieChart size={20} />
                   {isExpanded && <span>Supplier Analytics</span>}
+                </Link>
+              </li>
+              <li>
+                <Link to="/dashboard/opportunity-queue" title="Opportunity Queue">
+                  <Briefcase size={20} />
+                  {isExpanded && <span>Opportunity Queue</span>}
                 </Link>
               </li>
             </>
@@ -91,12 +109,6 @@ const DashboardLayout: React.FC = () => {
                 <Link to="/dashboard/buyer" title="Buyer Workspace" className={isActive('/dashboard/buyer') ? 'active' : ''}>
                   <Briefcase size={20} />
                   {isExpanded && <span>Buyer Workspace</span>}
-                </Link>
-              </li>
-              <li>
-                <Link to="/dashboard/knowledge-base" title="Knowledge Base & Upload" className={isActive('/dashboard/knowledge-base') ? 'active' : ''}>
-                  <Database size={20} />
-                  {isExpanded && <span>Knowledge Base & Upload</span>}
                 </Link>
               </li>
               <li>
@@ -120,12 +132,18 @@ const DashboardLayout: React.FC = () => {
             </>
           )}
 
-          {role === 'Finance' && (
+          {(role === 'Finance' || role === 'Finance Controller') && (
             <>
               <li>
                 <Link to="/dashboard/finance" title="Savings Analytics">
                   <PieChart size={20} />
                   {isExpanded && <span>Savings Analytics</span>}
+                </Link>
+              </li>
+              <li>
+                <Link to="/dashboard/savings-tracker" title="Savings Tracker">
+                  <LayoutDashboard size={20} />
+                  {isExpanded && <span>Savings Tracker</span>}
                 </Link>
               </li>
             </>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Knowledge Graph - Hp Technologies</title>
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <style type="text/css">
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+        header {
+            background-color: #1e293b;
+            padding: 15px 20px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #334155;
+            z-index: 10;
+        }
+        h1 { margin: 0; font-size: 20px; font-weight: 600; color: #38bdf8; }
+        .subtitle { font-size: 12px; color: #94a3b8; margin-top: 4px; }
+        #network {
+            width: 100%;
+            height: calc(100vh - 80px);
+            min-height: 500px;
+            background-color: #0f172a;
+        }
+        #info-panel {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 320px;
+            max-height: 400px;
+            background-color: rgba(30, 41, 59, 0.95);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.3);
+            overflow-y: auto;
+            backdrop-filter: blur(8px);
+            z-index: 10;
+        }
+        h3 { margin-top: 0; color: #38bdf8; border-bottom: 1px solid #334155; padding-bottom: 8px; font-size: 16px; }
+        .prop-row { display: flex; justify-content: space-between; font-size: 13px; margin: 8px 0; }
+        .prop-label { color: #94a3b8; font-weight: 500; }
+        .prop-value { color: #f8fafc; font-weight: 600; text-align: right; word-break: break-all; max-width: 180px; }
+        .legend {
+            position: absolute;
+            top: 100px;
+            left: 20px;
+            background-color: rgba(30, 41, 59, 0.9);
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 12px;
+            z-index: 10;
+        }
+        .legend-item { display: flex; align-items: center; margin: 6px 0; }
+        .legend-color { width: 12px; height: 12px; border-radius: 50%; margin-right: 8px; }
+    </style>
+</head>
+<body>
+    <header>
+        <div>
+            <h1>NexusProcure Knowledge Graph</h1>
+            <div class="subtitle">Interactive Supplier Profile & Sourcing Network: <strong>Hp Technologies</strong></div>
+        </div>
+        <div style="font-size: 12px; color: #94a3b8;">Click & drag nodes to explore relationships. Zoom with scroll.</div>
+    </header>
+    
+    <div class="legend">
+        <strong style="display:block; margin-bottom: 8px; color: #38bdf8;">Node Legend</strong>
+        
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #38bdf8;"></div>
+                    <span>Supplier</span>
+                </div>
+            
+
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #a78bfa;"></div>
+                    <span>Category</span>
+                </div>
+            
+
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #f87171;"></div>
+                    <span>Invoice</span>
+                </div>
+            
+
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #fbbf24;"></div>
+                    <span>Opportunity</span>
+                </div>
+            
+
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #f472b6;"></div>
+                    <span>Negotiation</span>
+                </div>
+            
+
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #2dd4bf;"></div>
+                    <span>Savings</span>
+                </div>
+            
+
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #94a3b8;"></div>
+                    <span>Benchmark</span>
+                </div>
+            
+    </div>
+
+    <div id="network"></div>
+
+    <div id="info-panel">
+        <h3>Node Inspector</h3>
+        <div id="info-content">
+            <p style="color: #94a3b8; font-size: 13px;">Select any node in the graph network to inspect its detailed metadata and properties.</p>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        // Node details lookup
+        const nodeDetails = {"hp_technologies": {"type": "Supplier", "properties": {"name": "Hp Technologies", "category": "IT Hardware", "risk_level": "Medium", "historical_discount": 8.5}}, "OPP-987B0ECA": {"type": "Opportunity", "properties": {"category": "IT Hardware", "current_spend": 170000.0, "benchmark_spend": 140000.0, "variance_amount": 30000.0, "savings_potential": 30000.0, "confidence_score": 95, "risk_level": "Medium", "priority_score": 5, "status": "In Progress"}}, "CAT-it_hardware": {"type": "Category", "properties": {"name": "IT Hardware"}}, "DOC-4": {"type": "Invoice", "properties": {"filename": "sample_invoice.txt", "uploaded_at": "", "uploaded_by": "", "amount": 170000.0, "benchmark": 140000.0}}, "BM-it_hardware": {"type": "Benchmark", "properties": {"category": "IT Hardware", "benchmark_value": 140000.0}}, "NEG-1": {"type": "Negotiation", "properties": {"target_price": 140000.0, "walkaway_price": 165000.0, "expected_savings": 30000.0, "status": "Pending Approval", "actual_price": 150000.0, "realised_savings": 20000.0, "talking_points": "[\"Given the current spend of $170,000 and benchmark spend of $140,000, we see a variance of $30,000.\", \"Our analysis indicates a potential savings of $30,000. We believe this is achievable given your past performance and willingness to discount.\", \"We value our partnership with Hp Technologies and would like to work together towards achieving these savings.\"]"}}, "SAV-1": {"type": "Savings", "properties": {"planned_savings": 30000.0, "realized_savings": 20000.0, "status": "Pending Validation"}}};
+
+        // Create Vis-Network datasets
+        const nodes = new vis.DataSet([{"id": "hp_technologies", "label": "Hp Technologies\nIT Hardware | Disc: 8.5%", "color": {"background": "#38bdf8", "border": "#0369a1", "highlight": {"background": "#38bdf8", "border": "#0284c7"}}, "shape": "circle", "size": 25}, {"id": "OPP-987B0ECA", "label": "OPP-987B0ECA\nSpend: ₹170k | Sav: ₹30k\nStatus: In Progress", "color": {"background": "#fbbf24", "border": "#b45309", "highlight": {"background": "#38bdf8", "border": "#0284c7"}}, "shape": "diamond", "size": 22}, {"id": "CAT-it_hardware", "label": "IT Hardware", "color": {"background": "#a78bfa", "border": "#6d28d9", "highlight": {"background": "#38bdf8", "border": "#0284c7"}}, "shape": "database", "size": 25}, {"id": "DOC-4", "label": "DOC-4\n₹170k | sample_in...", "color": {"background": "#f87171", "border": "#b91c1c", "highlight": {"background": "#38bdf8", "border": "#0284c7"}}, "shape": "hexagon", "size": 22}, {"id": "BM-it_hardware", "label": "BM-it_hardware\nVal: ₹140k", "color": {"background": "#94a3b8", "border": "#475569", "highlight": {"background": "#38bdf8", "border": "#0284c7"}}, "shape": "triangle", "size": 18}, {"id": "NEG-1", "label": "NEG-1\nTgt: ₹140k | Exp: ₹30k\nStatus: Pending Approval", "color": {"background": "#f472b6", "border": "#be185d", "highlight": {"background": "#38bdf8", "border": "#0284c7"}}, "shape": "box", "size": 25}, {"id": "SAV-1", "label": "SAV-1\nRealized: ₹20k\nStatus: Pending Validation", "color": {"background": "#2dd4bf", "border": "#0f766e", "highlight": {"background": "#38bdf8", "border": "#0284c7"}}, "shape": "star", "size": 22}]);
+        const edges = new vis.DataSet([{"from": "hp_technologies", "to": "OPP-987B0ECA", "label": "HAS_OPPORTUNITY"}, {"from": "hp_technologies", "to": "CAT-it_hardware", "label": "BELONGS_TO_CATEGORY"}, {"from": "hp_technologies", "to": "DOC-4", "label": "HAS_INVOICE"}, {"from": "DOC-4", "to": "BM-it_hardware", "label": "EXCEEDS_BENCHMARK"}, {"from": "DOC-4", "to": "OPP-987B0ECA", "label": "GENERATED_OPPORTUNITY"}, {"from": "hp_technologies", "to": "NEG-1", "label": "HAS_NEGOTIATION"}, {"from": "OPP-987B0ECA", "to": "NEG-1", "label": "HAS_NEGOTIATION_PLAYBOOK"}, {"from": "NEG-1", "to": "SAV-1", "label": "EXPECTS_SAVINGS"}]);
+
+        // Network Configuration
+        const container = document.getElementById('network');
+        const data = { nodes: nodes, edges: edges };
+        const options = {
+            nodes: {
+                font: { color: '#f8fafc', size: 10, face: 'Segoe UI' },
+                borderWidth: 2,
+                shadow: true
+            },
+            edges: {
+                color: { color: '#475569', highlight: '#38bdf8', hover: '#38bdf8' },
+                arrows: { to: { enabled: true, scaleFactor: 0.6 } },
+                font: { size: 8, strokeWidth: 0, color: '#94a3b8', face: 'Segoe UI' },
+                width: 1.2,
+                smooth: { type: 'curvedCW', roundness: 0.2 }
+            },
+            physics: {
+                barnesHut: {
+                    gravitationalConstant: -7000,
+                    centralGravity: 0.3,
+                    springLength: 220,
+                    springConstant: 0.04,
+                    damping: 0.09
+                },
+                stabilization: { iterations: 150 }
+            },
+            interaction: { hover: true }
+        };
+
+        const network = new vis.Network(container, data, options);
+
+        // Select Node Listener
+        network.on("selectNode", function (params) {
+            const nodeId = params.nodes[0];
+            const detail = nodeDetails[nodeId];
+            if (!detail) return;
+
+            let html = `<h3>${detail.type}: ${nodeId}</h3>`;
+            
+            // Format properties beautifully
+            if (detail.properties && Object.keys(detail.properties).length > 0) {
+                for (const [key, value] of Object.entries(detail.properties)) {
+                    let displayVal = value;
+                    if (typeof value === 'object') {
+                        displayVal = JSON.stringify(value);
+                    } else if (typeof value === 'number') {
+                        // Currency format if it looks like spend or savings
+                        if (key.includes('spend') || key.includes('amount') || key.includes('potential') || key.includes('savings') || key.includes('price')) {
+                            displayVal = '$' + value.toLocaleString();
+                        }
+                    }
+                    
+                    // Human readable key labels
+                    const label = key.replace(/_/g, ' ').replace(/\w/g, c => c.toUpperCase());
+                    
+                    html += `
+                        <div class="prop-row">
+                            <span class="prop-label">${label}</span>
+                            <span class="prop-value">${displayVal}</span>
+                        </div>
+                    `;
+                }
+            } else {
+                html += `<p style="color: #94a3b8; font-size: 13px;">No explicit properties recorded for this node.</p>`;
+            }
+
+            document.getElementById('info-content').innerHTML = html;
+        });
+
+        // Deselect Listener
+        network.on("deselectNode", function (params) {
+            document.getElementById('info-content').innerHTML = `
+                <p style="color: #94a3b8; font-size: 13px;">Select any node in the graph network to inspect its detailed metadata and properties.</p>
+            `;
+        });
+    </script>
+</body>
+</html>

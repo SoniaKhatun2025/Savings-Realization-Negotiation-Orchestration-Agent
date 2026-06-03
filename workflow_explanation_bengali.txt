@@ -1,0 +1,134 @@
+======================================================================
+AGENT19 - ENTERPRISE AI PROCUREMENT COPILOT 
+PERSONA-WISE WORKFLOW (BENGALI)
+======================================================================
+
+Agent19 platform-e 4 ti main persona aache:
+1. Category Manager (যিনি category/supplier data manage করেন)
+2. Buyer (যিনি actual negotiation এবং কেনাকাটা করেন)
+3. Finance Controller (যিনি savings validate করেন)
+4. CPO (Chief Procurement Officer - যিনি overall business ROI দেখেন)
+
+নিচে একটি বাস্তব উদাহরণ (Example) দিয়ে পুরো স্টেপ-বাই-স্টেপ ফ্লো বোঝানো হলো:
+
+======================================================================
+উদাহরণ: "TechSource India" নামের একটি সাপ্লায়ারের ইনভয়েস নিয়ে কাজ
+======================================================================
+
+--- [STEP 1: CATEGORY MANAGER / CPO এর কাজ] ---
+১. লগইন: Category Manager সিস্টেমে লগইন করলেন। 
+২. অ্যাকশন: তিনি "Knowledge Base" পেজে গেলেন এবং "TechSource India" এর একটি নতুন Invoice আপলোড করলেন। (এখানে তিনি "Auto-Detect AI" সিলেক্ট করে রাখলেন)।
+৩. ব্যাকগ্রাউন্ড প্রসেস: আমাদের নতুন AI Workflow সাথে সাথে ওই invoice টা পড়া শুরু করলো। AI দেখলো যে TechSource এর বিল এসেছে ১২০০ টাকা, কিন্তু ইন্ডাস্ট্রিতে এর বেঞ্চমার্ক (benchmark) হলো ৯৫০ টাকা।
+৪. রেজাল্ট: AI নিজে থেকেই ২৫০ টাকার একটি "Savings Opportunity" ক্রিয়েট করলো এবং ডেটাবেসে সেভ করে রাখলো।
+
+
+--- [STEP 2: BUYER এর কাজ] ---
+১. লগইন: এরপর Buyer সিস্টেমে লগইন করলেন। 
+২. নোটিফিকেশন: লগইন করার সাথে সাথেই Buyer ওপরের Navigation Bar-এ থাকা Bell Icon-এ একটি লাল ব্যাজ (Notification) দেখতে পাবেন।
+৩. অ্যাকশন ১ (ক্লিক): নোটিফিকেশনটিতে ক্লিক করলে তিনি পড়বেন: "New Pricing Anomaly: TechSource India - Potential savings of $250 detected". 
+৪. অ্যাকশন ২ (কিউ রিভিউ): নোটিফিকেশনে ক্লিক করলে তাকে সরাসরি "Opportunity Queue" পেজে নিয়ে যাওয়া হবে। সেখানে তিনি TechSource এর ওই ২৫০ টাকার অপারচুনিটিটা দেখতে পাবেন।
+৫. অ্যাকশন ৩ (এআই চ্যাটবট): Buyer এবার "AI Procurement Assistant" (চ্যাটবট) ওপেন করে প্রশ্ন করবেন: "Why was TechSource India flagged?"
+   - AI উত্তর দেবে: "TechSource এর ইনভয়েস প্রাইস বেঞ্চমার্কের চেয়ে ২৫০ টাকা বেশি, তাই একে ফ্ল্যাগ করা হয়েছে।"
+৬. অ্যাকশন ৪ (নেগোসিয়েশন শুরু): সব ইনফরমেশন পেয়ে Buyer এবার Opportunity-র পাশে থাকা "Start Negotiation" বাটনে ক্লিক করবেন। AI সাথে সাথে তাকে একটি "Negotiation Playbook" (Target price, Walkaway price, Talking points) বানিয়ে দেবে। 
+৭. অ্যাকশন ৫ (ক্লোজ ডিল): Buyer সাপ্লায়ারের সাথে অফলাইনে বা ইমেইলে কথা বলে দাম কমাবেন এবং সিস্টেমে এসে সেভ করবেন যে তিনি কত টাকা বাঁচাতে পারলেন (Realized Savings)। 
+
+
+--- [STEP 3: FINANCE CONTROLLER এর কাজ] ---
+১. লগইন: মাসের শেষে Finance Controller লগইন করবেন।
+২. অ্যাকশন: তিনি "Savings Analytics" বা "Savings Tracker" পেজে যাবেন।
+৩. রিভিউ: তিনি দেখবেন যে Buyer দাবি করেছে সে ২৫০ টাকা বাঁচিয়েছে। 
+৪. ভ্যালিডেশন: Finance Controller কোম্পানির ব্যাংক স্টেটমেন্ট বা বাজেটের সাথে সেটা মিলিয়ে দেখবেন। সব ঠিক থাকলে তিনি ওই savings টাকে "Validated" হিসেবে মার্ক করে দেবেন। এতে কোম্পানির খাতায় savings টা ফাইনাল হয়ে যাবে।
+
+
+--- [STEP 4: CPO (CHIEF PROCUREMENT OFFICER) এর কাজ] ---
+১. লগইন: CPO যেকোনো সময় সিস্টেমে লগইন করতে পারেন।
+২. অ্যাকশন: তিনি "Executive Dashboard"-এ যাবেন।
+৩. ড্যাশবোর্ড ভিউ: তাকে কোনো ছোটখাটো ইনভয়েস চেক করতে হবে না। তিনি শুধু ড্যাশবোর্ডের চার্টগুলোতে দেখবেন যে এই মাসে মোট কত টাকার "Planned Savings" ছিল এবং Finance টিম কত টাকার "Realized Savings" কনফার্ম করেছে। তিনি Top 3 Savings Categories দেখতে পাবেন।
+
+======================================================================
+সামারি (SUMMARY FLOW):
+======================================================================
+Category Manager Document Upload করলো -> AI Anomaly বের করে Notification পাঠালো -> Buyer Notification দেখে Chatbot এর সাহায্য নিয়ে Negotiation করলো -> Finance Controller সেই টাকা বাঁচানোটাকে Validate করলো -> CPO ড্যাশবোর্ডে টোটাল প্রফিট দেখলো।
+
+======================================================================
+EXPECTED INPUTS (কী কী ডকুমেন্ট লাগবে, তাতে কী থাকবে এবং কোথা থেকে পাবো)
+======================================================================
+
+১. Budget vs. actual price feeds (ERP / spend cubes)
+   - কী থাকবে: কোন ক্যাটাগরিতে কত বাজেট ছিল আর বাস্তবে কত খরচ হয়েছে তার লিস্ট।
+   - ডকুমেন্টের ধরন: Excel / CSV ফাইল।
+   - কোথা থেকে পাবো: কোম্পানির ERP সিস্টেম (যেমন SAP, Oracle) বা ফাইন্যান্স ডিপার্টমেন্ট থেকে।
+
+২. Purchase Order (PO) and Invoice history
+   - কী থাকবে: সাপ্লায়ারের নাম, কী কেনা হয়েছে, পরিমাণ, কত দাম নিয়েছে তার রেকর্ড।
+   - ডকুমেন্টের ধরন: PDF (স্ক্যান করা বিল) অথবা CSV ডাম্প।
+   - কোথা থেকে পাবো: ERP সিস্টেম, Accounts Payable (AP) টিম বা সাপ্লায়ারের পাঠানো বিল থেকে।
+
+৩. Master contracts & pricing agreements
+   - কী থাকবে: সাপ্লায়ারের সাথে হওয়া মেইন চুক্তি, ডিসকাউন্টের রেট, পেমেন্ট টার্মস (MSA, SLA)।
+   - ডকুমেন্টের ধরন: Word বা PDF ফাইল।
+   - কোথা থেকে পাবো: লিগ্যাল টিম (Legal Team) বা প্রকিউরমেন্ট পোর্টাল (যেমন Ariba, Coupa) থেকে।
+
+৪. Supplier master data and performance scores
+   - কী থাকবে: সাপ্লায়ারের রিস্ক লেভেল, তারা সময়মতো ডেলিভারি দেয় কিনা তার স্কোরকার্ড।
+   - ডকুমেন্টের ধরন: Excel / CSV ফাইল।
+   - কোথা থেকে পাবো: Vendor Management System (VMS) বা ক্যাটাগরি ম্যানেজারের রেকর্ড থেকে।
+
+৫. Category benchmarks / market index data
+   - কী থাকবে: বাজারে বা ইন্ডাস্ট্রিতে ওই নির্দিষ্ট প্রোডাক্টের সঠিক দাম কত তার রিপোর্ট।
+   - ডকুমেন্টের ধরন: PDF বা ওয়েব রিপোর্ট।
+   - কোথা থেকে পাবো: মার্কেট রিসার্চ ফার্ম (যেমন Gartner, Forrester) বা ইন্টারনেটের মার্কেট ইনডেক্স থেকে।
+
+৬. Historical negotiation outcomes
+   - কী থাকবে: অতীতে সাপ্লায়ারদের সাথে কিভাবে নেগোসিয়েশন হয়েছিল এবং কী রেজাল্ট এসেছিল তার রেকর্ড।
+   - ডকুমেন্টের ধরন: Word, PDF বা ইমেইল হিস্ট্রি।
+   - কোথা থেকে পাবো: পুরোনো প্রকিউরমেন্ট ফাইল বা বায়ারদের ইমেইল থেকে।
+
+৭. User/buyer queries (chat)
+   - কী থাকবে: বায়াররা সিস্টেমে কী কী প্রশ্ন করছে।
+   - কোথা থেকে পাবো: সরাসরি আমাদের Agent19-এর চ্যাটবট ইন্টারফেস থেকে রিয়েল-টাইমে জেনারেট হবে।
+
+
+======================================================================
+EXPECTED OUTPUTS (সিস্টেম থেকে আমরা কী রেজাল্ট পাবো)
+======================================================================
+
+১. Ranked Savings Opportunity Register
+   - আউটপুট: সিস্টেমে অটোমেটিক একটি লিস্ট তৈরি হবে (Opportunity Queue) যেখানে লেখা থাকবে কোন সাপ্লায়ারের কাছে কত টাকা বাঁচানো সম্ভব এবং AI এর Confidence Score কত।
+   - কোথায় দেখাবে: Opportunity Queue ড্যাশবোর্ডে।
+
+২. Negotiation Playbooks
+   - আউটপুট: সাপ্লায়ারের সাথে কথা বলার জন্য AI একটি স্ক্রিপ্ট (Talking points, Target price, BATNA, Concession ladder) তৈরি করে দেবে।
+   - কোথায় দেখাবে: Negotiation Workspace-এ।
+
+৩. Auto-drafted outreach
+   - আউটপুট: সাপ্লায়ারকে পাঠানোর জন্য নেগোসিয়েশন ইমেইল, RFQ (Request for Quotation) বা চুক্তির খসড়া AI নিজে থেকে লিখে দেবে।
+   - কোথায় দেখাবে: AI Chatbot বা ইমেইল ড্রাফট সেকশনে।
+
+৪. Buyer task assignments with SLAs
+   - আউটপুট: কোন বায়ার কোন সাপ্লায়ারের সাথে ডিল করবে তার টাস্ক এবং ডেডলাইন।
+   - কোথায় দেখাবে: Buyer Workspace-এ।
+
+৫. Realized Savings Tracker
+   - আউটপুট: প্ল্যান করা সেভিংসের তুলনায় বাস্তবে কত টাকা বাঁচলো এবং কোনো পার্থক্য থাকলে তার কারণ।
+   - কোথায় দেখাবে: Savings Tracker ড্যাশবোর্ডে।
+
+৬. Executive dashboard & chatbot Q&A
+   - আউটপুট: CPO বা এক্সিকিউটিভদের জন্য পুরো কোম্পানির ওভারঅল সেভিংসের রিপোর্ট এবং যেকোনো প্রশ্নের সাথে সাথে চ্যাটবটের উত্তর।
+   - কোথায় দেখাবে: Executive Dashboard এবং Procurement Chatbot পেজে।
+
+
+======================================================================
+PERSONA-WISE MENU STRUCTURE (CURRENT VS RECOMMENDED)
+======================================================================
+
+বর্তমান অ্যাপ্লিকেশনের মেনু স্ট্রাকচারে কিছু ভুল আছে (যেমন Category Manager-এর কাছে Knowledge Base নেই, অথচ ফ্লো অনুযায়ী তারই সেটা দরকার)। নিচে একটি ট্যাবিউলার (Tabular) ফরম্যাটে সঠিক মেনু স্ট্রাকচার দেওয়া হলো:
+
+| Persona              | Recommended Menus                                                                 | Role / Action |
+|----------------------|-----------------------------------------------------------------------------------|---------------|
+| Category Manager     | 1. Category Dashboard<br>2. Knowledge Base & Upload<br>3. Supplier Analytics<br>4. Opportunity Queue | ক্যাটাগরি স্ট্র্যাটেজি, সাপ্লায়ার ডেটা ম্যানেজমেন্ট এবং ইনভয়েস/কন্ট্রাক্ট আপলোড করা। |
+| Buyer                | 1. Buyer Workspace<br>2. Opportunity Queue<br>3. Savings Tracker<br>4. AI Procurement Assistant | এআই-এর সাহায্যে অপরচুনিটি রিভিউ করা, নেগোসিয়েশন করা এবং সেভিংস রেকর্ড করা। |
+| Finance Controller   | 1. Savings Analytics<br>2. Savings Tracker (Validation Mode)                      | বায়ারদের সেভিংস ভ্যালিডেট করা এবং বাজেটের সাথে রিয়েলাইজড সেভিংস মেলানো। |
+| CPO (Chief)          | 1. Executive Dashboard<br>2. Supplier Analytics<br>3. Knowledge Base              | পুরো কোম্পানির পারফরম্যান্স, টোটাল সেভিংস এবং লিডারশিপ ওভারভিউ দেখা। |
+
+নোট: বর্তমান অ্যাপে "Buyer" কে "Knowledge Base & Upload" এর অ্যাক্সেস দেওয়া আছে, কিন্তু "Category Manager" কে দেওয়া নেই। এন্টারপ্রাইজ রুল অনুযায়ী, ডকুমেন্ট আপলোডের মূল দায়িত্ব Category Manager বা Data Admin-এর হাতে থাকা উচিত।

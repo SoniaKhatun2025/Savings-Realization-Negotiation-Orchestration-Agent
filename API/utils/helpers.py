@@ -30,3 +30,20 @@ def parse_llm_json(llm_output: str) -> dict:
         print(f"Raw Output: {llm_output}")
         # Return empty safe defaults if parsing fails
         return {}
+
+def log_audit_event(user_id: int, action: str, target_api: str, details: dict = None):
+    """
+    Log an event to the audit_logs table.
+    """
+    try:
+        from database.connection import get_db_connection
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("""
+            INSERT INTO audit_logs (user_id, action, target_api, details_json)
+            VALUES (%s, %s, %s, %s)
+        """, (user_id, action, target_api, json.dumps(details or {})))
+        conn.close()
+    except Exception as e:
+        print(f"Failed to log audit event: {e}")
+

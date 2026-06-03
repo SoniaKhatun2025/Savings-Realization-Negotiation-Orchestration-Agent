@@ -14,6 +14,7 @@ import SupplierAnalyticsPage from './pages/SupplierAnalyticsPage';
 import OpportunityQueuePage from './pages/OpportunityQueuePage';
 import ProcurementChatbotPage from './pages/ProcurementChatbotPage';
 import SavingsTrackerPage from './pages/SavingsTrackerPage';
+import AuditLogsPage from './pages/AuditLogsPage';
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           <Route path="opportunity-queue" element={<OpportunityQueuePage />} />
           <Route path="chatbot" element={<ProcurementChatbotPage />} />
           <Route path="savings-tracker" element={<SavingsTrackerPage />} />
+          <Route path="audit-logs" element={<AuditLogsPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

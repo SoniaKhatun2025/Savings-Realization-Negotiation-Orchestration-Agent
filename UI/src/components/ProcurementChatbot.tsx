@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 const ProcurementChatbot: React.FC = () => {
@@ -17,33 +17,162 @@ const ProcurementChatbot: React.FC = () => {
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
 
-  const handleSend = () => {
-    if (input.trim()) {
+  const token = localStorage.getItem("nexus_token");
+
+  const fetchHistory = async () => {
+    try {
+      const response = await fetch("http://localhost:8002/chat/history", {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      });
+      const resData = await response.json();
+      if (response.ok && resData.data && resData.data.length > 0) {
+        const historyMsgs = resData.data.map((msg: any) => {
+          let msgTime = new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+          if (msg.created_at) {
+            try {
+              msgTime = new Date(msg.created_at).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              });
+            } catch (e) {
+              console.error(e);
+            }
+          }
+          return {
+            sender: msg.sender,
+            text: msg.message,
+            time: msgTime
+          };
+        });
+        setMessages(historyMsgs);
+      }
+    } catch (err) {
+      console.error("Error fetching chat history:", err);
+    }
+  };
+
+  useEffect(() => {
+    // Intentionally left empty to start fresh as per user request
+    // fetchHistory();
+  }, []);
+
+  const handleClearHistory = async () => {
+    try {
+      const response = await fetch("http://localhost:8002/chat/history", {
+        method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      });
+      if (response.ok) {
+        setMessages([
+          {
+            sender: "AI",
+            text: "Hello, I am NexusProcure. I can analyze supplier history, review benchmark pricing, and generate negotiation playbooks. How can I assist you today?",
+            time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+          },
+        ]);
+      }
+    } catch (err) {
+      console.error("Error clearing chat history:", err);
+    }
+  };
+
+  const handleSend = async (customInput?: string) => {
+    const textToSend = customInput !== undefined ? customInput : input;
+    if (textToSend.trim()) {
       const timeNow = new Date().toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
       });
-      setMessages([
-        ...messages,
-        { sender: "User", text: input, time: timeNow },
+      setMessages((prev) => [
+        ...prev,
+        { sender: "User", text: textToSend, time: timeNow },
       ]);
-      setInput("");
+      if (customInput === undefined) {
+        setInput("");
+      }
       setIsTyping(true);
 
-      setTimeout(() => {
-        setIsTyping(false);
+      try {
+        const response = await fetch("http://localhost:8002/chat/stream", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify({ message: textToSend })
+        });
+
+        if (response.ok && response.body) {
+          setMessages((prev) => [
+            ...prev,
+            {
+              sender: "AI",
+              text: "",
+              time: new Date().toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              }),
+            },
+          ]);
+
+          setIsTyping(false);
+
+          const reader = response.body.getReader();
+          const decoder = new TextDecoder("utf-8");
+          let done = false;
+
+          while (!done) {
+            const { value, done: readerDone } = await reader.read();
+            done = readerDone;
+            if (value) {
+              const chunk = decoder.decode(value, { stream: true });
+              setMessages((prev) => {
+                const newMessages = [...prev];
+                const lastIdx = newMessages.length - 1;
+                newMessages[lastIdx] = {
+                  ...newMessages[lastIdx],
+                  text: newMessages[lastIdx].text + chunk
+                };
+                return newMessages;
+              });
+            }
+          }
+        } else {
+          setMessages((prev) => [
+            ...prev,
+            {
+              sender: "AI",
+              text: "Sorry, I encountered an error processing your request. Please try again.",
+              time: new Date().toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              }),
+            },
+          ]);
+        }
+      } catch (err) {
+        console.error("Error sending chat query:", err);
         setMessages((prev) => [
           ...prev,
           {
             sender: "AI",
-            text: `I have analyzed your request regarding "${input}". Based on my semantic search of 142 contracts and ERP data, I recommend consolidating the IT Hardware spend with TechCorp to achieve an estimated ₹45k in savings.`,
+            text: "Network error. Please check your backend connection.",
             time: new Date().toLocaleTimeString([], {
               hour: "2-digit",
               minute: "2-digit",
             }),
           },
         ]);
-      }, 2500);
+      } finally {
+        setIsTyping(false);
+      }
     }
   };
 
@@ -65,19 +194,38 @@ const ProcurementChatbot: React.FC = () => {
           borderBottom: "1px solid rgba(255,255,255,0.05)",
           display: "flex",
           alignItems: "center",
-          gap: "10px",
+          justifyContent: "space-between"
         }}
       >
-        <div
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <div
+            style={{
+              width: "10px",
+              height: "10px",
+              background: "#22c55e",
+              borderRadius: "50%",
+              boxShadow: "0 0 10px #22c55e",
+            }}
+          ></div>
+          <strong>NexusProcure AI Copilot</strong>
+        </div>
+        <button
+          onClick={handleClearHistory}
           style={{
-            width: "10px",
-            height: "10px",
-            background: "#22c55e",
-            borderRadius: "50%",
-            boxShadow: "0 0 10px #22c55e",
+            background: "transparent",
+            border: "1px solid rgba(255,255,255,0.2)",
+            color: "#cbd5e1",
+            padding: "4px 10px",
+            borderRadius: "4px",
+            cursor: "pointer",
+            fontSize: "0.8rem",
+            transition: "all 0.2s"
           }}
-        ></div>
-        <strong>NexusProcure AI Copilot</strong>
+          onMouseOver={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.1)")}
+          onMouseOut={(e) => (e.currentTarget.style.background = "transparent")}
+        >
+          New Chat
+        </button>
       </div>
 
       <div
@@ -105,11 +253,11 @@ const ProcurementChatbot: React.FC = () => {
                   : "rgba(255,255,255,0.05)",
               padding: "12px 18px",
               color: msg.sender === "User" ? "#fff" : "#e2e8f0",
-
               borderRadius:
                 msg.sender === "User" ? "18px 18px 0 18px" : "18px 18px 18px 0",
               maxWidth: "80%",
               lineHeight: "1.5",
+              whiteSpace: "pre-wrap",
             }}
           >
             <div
@@ -121,7 +269,7 @@ const ProcurementChatbot: React.FC = () => {
             >
               <strong>{msg.sender}</strong> • {msg.time}
             </div>
-            {msg.text}
+            {msg.text.replace(/\n\n(?=\d+\.|-|\*)/g, '\n')}
           </motion.div>
         ))}
         {isTyping && (
@@ -193,8 +341,7 @@ const ProcurementChatbot: React.FC = () => {
       >
         <button
           onClick={() => {
-            setInput("Show top variance suppliers");
-            handleSend();
+            handleSend("Show top variance suppliers");
           }}
           className="btn-secondary"
           style={{
@@ -212,8 +359,7 @@ const ProcurementChatbot: React.FC = () => {
         </button>
         <button
           onClick={() => {
-            setInput("Which suppliers are overpriced?");
-            handleSend();
+            handleSend("Which suppliers are overpriced?");
           }}
           className="btn-secondary"
           style={{
@@ -231,8 +377,7 @@ const ProcurementChatbot: React.FC = () => {
         </button>
         <button
           onClick={() => {
-            setInput("Show expiring contracts");
-            handleSend();
+            handleSend("Show expiring contracts");
           }}
           className="btn-secondary"
           style={{
@@ -276,7 +421,7 @@ const ProcurementChatbot: React.FC = () => {
           }}
         />
         <button
-          onClick={handleSend}
+          onClick={() => handleSend()}
           className="btn-primary"
           style={{ padding: "10px 25px", borderRadius: "25px" }}
         >

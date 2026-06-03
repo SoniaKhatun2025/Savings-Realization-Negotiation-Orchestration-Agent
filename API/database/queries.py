@@ -13,10 +13,11 @@ CREATE_USER = """
 """
 
 GET_ALL_OPPORTUNITIES = """
-    SELECT o.*, s.name as supplier_name, stat.name as status_name 
+    SELECT o.*, s.name as supplier_name, stat.name as status_name, u.name as buyer_name
     FROM opportunities o 
     JOIN suppliers s ON o.supplier_id = s.id
     JOIN statuses stat ON o.status_id = stat.id
+    LEFT JOIN users u ON o.assigned_buyer_id = u.id
 """
 
 GET_OPPORTUNITY_BY_ID = """
@@ -39,7 +40,7 @@ CREATE_NEGOTIATION = """
 """
 
 GET_NEGOTIATIONS_BY_BUYER = """
-    SELECT n.*, s.name as supplier_name, o.category, stat.name as status_name
+    SELECT n.*, s.name as supplier_name, o.category, o.current_spend as current_spend, stat.name as status_name
     FROM negotiations n
     JOIN suppliers s ON n.supplier_id = s.id
     JOIN opportunities o ON n.opportunity_id = o.id
@@ -48,8 +49,8 @@ GET_NEGOTIATIONS_BY_BUYER = """
 """
 
 CREATE_DOCUMENT = """
-    INSERT INTO uploaded_documents (filename, doc_type_id, uploaded_by_id, processing_status_id) 
-    VALUES (%s, (SELECT id FROM types WHERE category='DocumentType' AND name=%s), %s, (SELECT id FROM statuses WHERE category='Document' AND name='Uploading'))
+    INSERT INTO uploaded_documents (filename, storage_url, doc_type_id, uploaded_by_id, processing_status_id) 
+    VALUES (%s, %s, (SELECT id FROM types WHERE category='DocumentType' AND name=%s), %s, (SELECT id FROM statuses WHERE category='Document' AND name='Uploading'))
 """
 
 UPDATE_DOCUMENT_STATUS = """
@@ -58,10 +59,16 @@ UPDATE_DOCUMENT_STATUS = """
     WHERE id = %s
 """
 
+UPDATE_DOCUMENT_TYPE = """
+    UPDATE uploaded_documents 
+    SET doc_type_id = (SELECT id FROM types WHERE category='DocumentType' AND name=%s)
+    WHERE id = %s
+"""
+
 GET_DASHBOARD_SAVINGS = """
     SELECT 
         SUM(planned_savings) as total_planned,
-        SUM(realized_savings) as total_realized
+        SUM(CASE WHEN status_id = (SELECT id FROM statuses WHERE category='Savings' AND name='Validated') THEN realized_savings ELSE 0.0 END) as total_realized
     FROM savings_tracker
 """
 
@@ -76,3 +83,128 @@ GET_CHAT_HISTORY = """
     JOIN types t ON c.sender_id = t.id
     WHERE c.user_id = %s ORDER BY c.created_at ASC
 """
+
+GET_ALL_USERS = """
+    SELECT u.id, u.name, u.email, r.name as role, u.status, u.created_at 
+    FROM users u 
+    JOIN roles r ON u.role_id = r.id 
+    ORDER BY u.created_at DESC
+"""
+
+UPDATE_USER_STATUS = """
+    UPDATE users 
+    SET status = %s 
+    WHERE id = %s
+"""
+
+CREATE_BUDGET = """
+    INSERT INTO budgets (category, fiscal_year, allocated_amount)
+    VALUES (%s, %s, %s)
+"""
+
+UPDATE_BUDGET = """
+    UPDATE budgets
+    SET allocated_amount = %s, actual_spend = %s
+    WHERE id = %s
+"""
+
+GET_BUDGETS = "SELECT * FROM budgets"
+
+GET_BUDGET_BY_CATEGORY_YEAR = """
+    SELECT * FROM budgets WHERE category = %s AND fiscal_year = %s
+"""
+
+CREATE_APPROVAL = """
+    INSERT INTO approvals (negotiation_id, approved_by, comment)
+    VALUES (%s, %s, %s)
+"""
+
+UPDATE_APPROVAL_STATUS = """
+    UPDATE approvals
+    SET status = %s, comment = %s, decided_at = CURRENT_TIMESTAMP
+    WHERE id = %s
+"""
+
+GET_APPROVAL_BY_NEGOTIATION = """
+    SELECT * FROM approvals WHERE negotiation_id = %s ORDER BY decided_at DESC LIMIT 1
+"""
+
+ASSIGN_BUYER_TO_OPPORTUNITY = """
+    UPDATE opportunities
+    SET assigned_buyer_id = %s, priority_score = %s
+    WHERE id = %s
+"""
+
+UPDATE_NEGOTIATION_OUTCOME = """
+    UPDATE negotiations
+    SET actual_price = %s,
+        realised_savings = %s,
+        comment = %s,
+        status_id = (SELECT id FROM statuses WHERE category='Negotiation' AND name='Completed')
+    WHERE id = %s
+"""
+
+VALIDATE_SAVINGS_AGAINST_BUDGET = """
+    SELECT b.category, b.fiscal_year, b.allocated_amount,
+           COALESCE(SUM(s.realized_savings), 0) AS realized,
+           b.allocated_amount - COALESCE(SUM(s.realized_savings), 0) AS variance
+    FROM budgets b
+    LEFT JOIN opportunities o ON b.category = o.category AND YEAR(o.created_at) = b.fiscal_year
+    LEFT JOIN negotiations n ON o.id = n.opportunity_id
+    LEFT JOIN savings_tracker s ON n.id = s.negotiation_id
+    GROUP BY b.id
+    HAVING variance <> 0
+"""
+
+GET_KNOWLEDGE_STATS = """
+    SELECT 
+        (SELECT COUNT(*) FROM suppliers) as total_suppliers,
+        (SELECT COUNT(*) FROM uploaded_documents WHERE doc_type_id = (SELECT id FROM types WHERE category='DocumentType' AND name='Contract')) as total_contracts,
+        (SELECT COUNT(*) FROM uploaded_documents WHERE doc_type_id = (SELECT id FROM types WHERE category='DocumentType' AND name='Benchmark')) as total_benchmarks
+"""
+
+GET_MONTHLY_SAVINGS_TREND = """
+    SELECT 
+        DATE_FORMAT(n.created_at, '%b') as month,
+        SUM(n.expected_savings) as planned,
+        SUM(n.realised_savings) as realized
+    FROM negotiations n
+    GROUP BY MONTH(n.created_at), DATE_FORMAT(n.created_at, '%b')
+    ORDER BY MONTH(n.created_at) ASC
+"""
+
+GET_TOP_SAVINGS_CATEGORIES = """
+    SELECT 
+        o.category,
+        SUM(n.realised_savings) as total_realized
+    FROM negotiations n
+    JOIN opportunities o ON n.opportunity_id = o.id
+    WHERE n.realised_savings IS NOT NULL AND n.realised_savings > 0
+    GROUP BY o.category
+    ORDER BY total_realized DESC
+    LIMIT 3
+"""
+
+CREATE_NOTIFICATION = """
+    INSERT INTO notifications (user_id, title, message, opportunity_id)
+    VALUES (%s, %s, %s, %s)
+"""
+
+GET_UNREAD_NOTIFICATIONS = """
+    SELECT * FROM notifications 
+    WHERE user_id = %s AND is_read = FALSE 
+    ORDER BY created_at DESC
+"""
+
+MARK_NOTIFICATION_READ = """
+    UPDATE notifications SET is_read = TRUE WHERE id = %s AND user_id = %s
+"""
+
+FIND_SUPPLIER_BY_NAME = """
+    SELECT id, name FROM suppliers WHERE LOWER(name) LIKE %s LIMIT 1
+"""
+
+GET_RANDOM_BUYER = """
+    SELECT id FROM users WHERE role_id = (SELECT id FROM roles WHERE name='Buyer') ORDER BY RAND() LIMIT 1
+"""
+

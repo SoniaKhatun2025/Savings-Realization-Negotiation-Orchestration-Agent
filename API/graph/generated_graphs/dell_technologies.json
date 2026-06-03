@@ -1,0 +1,484 @@
+{
+  "supplier": "Dell Technologies",
+  "nodes": [
+    {
+      "id": "dell_technologies",
+      "type": "Supplier",
+      "properties": {
+        "name": "Dell Technologies",
+        "category": "General Procurement",
+        "risk_level": "Medium",
+        "historical_discount": 8.5
+      }
+    },
+    {
+      "id": "OPP-A073AA45",
+      "type": "Opportunity",
+      "properties": {
+        "category": "IT Hardware",
+        "current_spend": 120000.0,
+        "benchmark_spend": 95000.0,
+        "variance_amount": 25000.0,
+        "savings_potential": 25000.0,
+        "confidence_score": 95,
+        "risk_level": "Medium",
+        "priority_score": 5,
+        "status": "In Progress"
+      }
+    },
+    {
+      "id": "DOC-1",
+      "type": "Invoice",
+      "properties": {
+        "filename": "Invoice_Data.xlsx",
+        "doc_type": "Invoice",
+        "status": "Indexed",
+        "extraction_status": "Complete (1 chunks)",
+        "uploaded_at": "",
+        "uploaded_by": "",
+        "amount": 120000.0,
+        "benchmark": 95000.0
+      }
+    },
+    {
+      "id": "CAT-it_hardware",
+      "type": "Category",
+      "properties": {
+        "name": "IT Hardware"
+      }
+    },
+    {
+      "id": "BM-it_hardware",
+      "type": "Benchmark",
+      "properties": {
+        "category": "IT Hardware",
+        "benchmark_value": 95000.0
+      }
+    },
+    {
+      "id": "DOC-2",
+      "type": "Contract",
+      "properties": {
+        "filename": "PO_Data.xlsx",
+        "doc_type": "Contract",
+        "status": "Indexed",
+        "extraction_status": "Complete (1 chunks)",
+        "uploaded_at": "",
+        "uploaded_by": ""
+      }
+    },
+    {
+      "id": "DOC-3",
+      "type": "Contract",
+      "properties": {
+        "filename": "Pricing_Benchmark.xlsx",
+        "uploaded_at": "",
+        "uploaded_by": ""
+      }
+    },
+    {
+      "id": "NEG-2",
+      "type": "Negotiation",
+      "properties": {
+        "target_price": 100000.0,
+        "walkaway_price": 125000.0,
+        "expected_savings": 20000.0,
+        "status": "Outreach Sent",
+        "actual_price": 115000.0,
+        "realised_savings": 5000.0,
+        "talking_points": "[\"Given the current spend of $120,000 and benchmark spend of $95,000, we are looking to achieve a savings of $25,000.\", \"Our analysis shows that Dell Technologies has a history of being willing to discount. We believe this opportunity presents an ideal chance for us to negotiate a more favorable price.\", \"We value our long-standing relationship with Dell Technologies and would like to continue this partnership, but we need to ensure the cost is aligned with our budget.\"]"
+      }
+    },
+    {
+      "id": "SAV-2",
+      "type": "Savings",
+      "properties": {
+        "planned_savings": 20000.0,
+        "realized_savings": 5000.0,
+        "status": "Pending Validation"
+      }
+    },
+    {
+      "id": "OPP-6F860891",
+      "type": "Opportunity",
+      "properties": {
+        "category": "General Procurement",
+        "current_spend": 120000.0,
+        "benchmark_spend": 95000.0,
+        "variance_amount": 25000.0,
+        "savings_potential": 25000.0,
+        "confidence_score": 95,
+        "risk_level": "Medium",
+        "priority_score": 5,
+        "status": "In Progress"
+      }
+    },
+    {
+      "id": "CAT-general_procurement",
+      "type": "Category",
+      "properties": {
+        "name": "General Procurement"
+      }
+    },
+    {
+      "id": "DOC-5",
+      "type": "Invoice",
+      "properties": {
+        "filename": "Invoice_Data.xlsx",
+        "uploaded_at": "",
+        "uploaded_by": "",
+        "amount": 120000.0,
+        "benchmark": 95000.0
+      }
+    },
+    {
+      "id": "BM-general_procurement",
+      "type": "Benchmark",
+      "properties": {
+        "category": "General Procurement",
+        "benchmark_value": 95000.0
+      }
+    },
+    {
+      "id": "DOC-6",
+      "type": "Pricing Sheet",
+      "properties": {
+        "filename": "PO_Data.xlsx",
+        "uploaded_at": "",
+        "uploaded_by": ""
+      }
+    },
+    {
+      "id": "DOC-7",
+      "type": "Pricing Sheet",
+      "properties": {
+        "filename": "Pricing_Benchmark.xlsx",
+        "uploaded_at": "",
+        "uploaded_by": ""
+      }
+    },
+    {
+      "id": "OPP-4803640E",
+      "type": "Opportunity",
+      "properties": {
+        "category": "IT Hardware",
+        "current_spend": 120000.0,
+        "benchmark_spend": 95000.0,
+        "variance_amount": 25000.0,
+        "savings_potential": 25000.0,
+        "confidence_score": 95,
+        "risk_level": "Medium",
+        "priority_score": 80,
+        "status": "Pending Analysis"
+      }
+    },
+    {
+      "id": "DOC-8",
+      "type": "Contract",
+      "properties": {
+        "filename": "Supplier_Contract_Sample.pdf",
+        "uploaded_at": "",
+        "uploaded_by": ""
+      }
+    },
+    {
+      "id": "NEG-3",
+      "type": "Negotiation",
+      "properties": {
+        "target_price": 100000.0,
+        "walkaway_price": 125000.0,
+        "expected_savings": 20000.0,
+        "status": "Pending Approval",
+        "actual_price": 109999.0,
+        "realised_savings": 10001.0,
+        "talking_points": "[\"Given the current spend of $120,000 and benchmark spend of $95,000, we see a variance of $25,000.\", \"Our analysis indicates a potential savings of $25,000 for this opportunity.\", \"Dell Technologies has shown a willingness to discount in the past. We believe that with our current spend and priority level, we can negotiate a more favorable price.\"]"
+      }
+    },
+    {
+      "id": "SAV-3",
+      "type": "Savings",
+      "properties": {
+        "planned_savings": 20000.0,
+        "realized_savings": 10001.0,
+        "status": "Pending Validation"
+      }
+    },
+    {
+      "id": "NEG-4",
+      "type": "Negotiation",
+      "properties": {
+        "target_price": 100000.0,
+        "walkaway_price": 125000.0,
+        "expected_savings": 20000.0,
+        "status": "Assigned"
+      }
+    },
+    {
+      "id": "OPP-E179AF41",
+      "type": "Opportunity",
+      "properties": {
+        "category": "General Procurement",
+        "current_spend": 120000.0,
+        "benchmark_spend": 95000.0,
+        "variance_amount": 25000.0,
+        "savings_potential": 25000.0,
+        "confidence_score": 95,
+        "risk_level": "Medium",
+        "priority_score": 80,
+        "status": "Pending Analysis"
+      }
+    },
+    {
+      "id": "OPP-97D8A170",
+      "type": "Opportunity",
+      "properties": {
+        "category": "IT Hardware",
+        "current_spend": 120000.0,
+        "benchmark_spend": 95000.0,
+        "variance_amount": 25000.0,
+        "savings_potential": 25000.0,
+        "confidence_score": 95,
+        "risk_level": "Medium",
+        "priority_score": 80,
+        "status": "Pending Analysis"
+      }
+    },
+    {
+      "id": "DOC-4",
+      "type": "Contract",
+      "properties": {
+        "filename": "Supplier_Contract_Sample.pdf",
+        "uploaded_at": "",
+        "uploaded_by": ""
+      }
+    },
+    {
+      "id": "NEG-1",
+      "type": "Negotiation",
+      "properties": {
+        "target_price": 100000.0,
+        "walkaway_price": 125000.0,
+        "expected_savings": 20000.0,
+        "status": "Assigned"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "dell_technologies",
+      "target": "OPP-A073AA45",
+      "relationship": "HAS_OPPORTUNITY",
+      "properties": {}
+    },
+    {
+      "source": "dell_technologies",
+      "target": "DOC-1",
+      "relationship": "HAS_DOCUMENT",
+      "properties": {}
+    },
+    {
+      "source": "dell_technologies",
+      "target": "CAT-it_hardware",
+      "relationship": "BELONGS_TO_CATEGORY",
+      "properties": {}
+    },
+    {
+      "source": "dell_technologies",
+      "target": "DOC-1",
+      "relationship": "HAS_INVOICE",
+      "properties": {}
+    },
+    {
+      "source": "DOC-1",
+      "target": "BM-it_hardware",
+      "relationship": "EXCEEDS_BENCHMARK",
+      "properties": {
+        "variance": 25000.0
+      }
+    },
+    {
+      "source": "DOC-1",
+      "target": "OPP-A073AA45",
+      "relationship": "GENERATED_OPPORTUNITY",
+      "properties": {}
+    },
+    {
+      "source": "dell_technologies",
+      "target": "DOC-2",
+      "relationship": "HAS_DOCUMENT",
+      "properties": {}
+    },
+    {
+      "source": "dell_technologies",
+      "target": "DOC-2",
+      "relationship": "HAS_CONTRACT",
+      "properties": {}
+    },
+    {
+      "source": "dell_technologies",
+      "target": "DOC-3",
+      "relationship": "HAS_CONTRACT",
+      "properties": {}
+    },
+    {
+      "source": "dell_technologies",
+      "target": "NEG-2",
+      "relationship": "HAS_NEGOTIATION",
+      "properties": {}
+    },
+    {
+      "source": "OPP-A073AA45",
+      "target": "NEG-2",
+      "relationship": "HAS_NEGOTIATION_PLAYBOOK",
+      "properties": {}
+    },
+    {
+      "source": "NEG-2",
+      "target": "SAV-2",
+      "relationship": "EXPECTS_SAVINGS",
+      "properties": {}
+    },
+    {
+      "source": "dell_technologies",
+      "target": "OPP-6F860891",
+      "relationship": "HAS_OPPORTUNITY",
+      "properties": {}
+    },
+    {
+      "source": "dell_technologies",
+      "target": "CAT-general_procurement",
+      "relationship": "BELONGS_TO_CATEGORY",
+      "properties": {}
+    },
+    {
+      "source": "dell_technologies",
+      "target": "DOC-5",
+      "relationship": "HAS_INVOICE",
+      "properties": {}
+    },
+    {
+      "source": "DOC-5",
+      "target": "BM-general_procurement",
+      "relationship": "EXCEEDS_BENCHMARK",
+      "properties": {
+        "variance": 25000.0
+      }
+    },
+    {
+      "source": "DOC-5",
+      "target": "OPP-6F860891",
+      "relationship": "GENERATED_OPPORTUNITY",
+      "properties": {}
+    },
+    {
+      "source": "dell_technologies",
+      "target": "DOC-6",
+      "relationship": "HAS_INVOICE",
+      "properties": {}
+    },
+    {
+      "source": "dell_technologies",
+      "target": "DOC-7",
+      "relationship": "HAS_INVOICE",
+      "properties": {}
+    },
+    {
+      "source": "dell_technologies",
+      "target": "OPP-4803640E",
+      "relationship": "HAS_OPPORTUNITY",
+      "properties": {}
+    },
+    {
+      "source": "dell_technologies",
+      "target": "DOC-8",
+      "relationship": "HAS_CONTRACT",
+      "properties": {}
+    },
+    {
+      "source": "dell_technologies",
+      "target": "NEG-3",
+      "relationship": "HAS_NEGOTIATION",
+      "properties": {}
+    },
+    {
+      "source": "OPP-6F860891",
+      "target": "NEG-3",
+      "relationship": "HAS_NEGOTIATION_PLAYBOOK",
+      "properties": {}
+    },
+    {
+      "source": "NEG-3",
+      "target": "SAV-3",
+      "relationship": "EXPECTS_SAVINGS",
+      "properties": {}
+    },
+    {
+      "source": "dell_technologies",
+      "target": "NEG-4",
+      "relationship": "HAS_NEGOTIATION",
+      "properties": {}
+    },
+    {
+      "source": "OPP-4803640E",
+      "target": "NEG-4",
+      "relationship": "HAS_NEGOTIATION_PLAYBOOK",
+      "properties": {}
+    },
+    {
+      "source": "dell_technologies",
+      "target": "OPP-E179AF41",
+      "relationship": "HAS_OPPORTUNITY",
+      "properties": {}
+    },
+    {
+      "source": "DOC-1",
+      "target": "BM-general_procurement",
+      "relationship": "EXCEEDS_BENCHMARK",
+      "properties": {
+        "variance": 25000.0
+      }
+    },
+    {
+      "source": "DOC-1",
+      "target": "OPP-E179AF41",
+      "relationship": "GENERATED_OPPORTUNITY",
+      "properties": {}
+    },
+    {
+      "source": "dell_technologies",
+      "target": "DOC-2",
+      "relationship": "HAS_INVOICE",
+      "properties": {}
+    },
+    {
+      "source": "dell_technologies",
+      "target": "DOC-3",
+      "relationship": "HAS_INVOICE",
+      "properties": {}
+    },
+    {
+      "source": "dell_technologies",
+      "target": "OPP-97D8A170",
+      "relationship": "HAS_OPPORTUNITY",
+      "properties": {}
+    },
+    {
+      "source": "dell_technologies",
+      "target": "DOC-4",
+      "relationship": "HAS_CONTRACT",
+      "properties": {}
+    },
+    {
+      "source": "dell_technologies",
+      "target": "NEG-1",
+      "relationship": "HAS_NEGOTIATION",
+      "properties": {}
+    },
+    {
+      "source": "OPP-97D8A170",
+      "target": "NEG-1",
+      "relationship": "HAS_NEGOTIATION_PLAYBOOK",
+      "properties": {}
+    }
+  ]
+}

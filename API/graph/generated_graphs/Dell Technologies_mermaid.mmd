@@ -1,0 +1,93 @@
+flowchart TD
+    dell_technologies("Dell Technologies [Supplier]")
+    OPP-A073AA45OPP-A073AA45{"OPP-A073AA45 [Opportunity]\nSpend: $120,000 | Savings: $25,000"}
+    DOC-1["DOC-1 [Invoice]\nAmt: $120,000"]
+    CAT-it_hardware[("IT Hardware [Category]")]
+    BM-it_hardware["BM-it_hardware [Benchmark]\nVal: $95,000"]
+    DOC-2["DOC-2 [Contract]"]
+    DOC-3["DOC-3 [Contract]"]
+    NEG-2["NEG-2 [Negotiation]\nTarget: $100,000 | Exp Sav: $20,000"]
+    SAV-2SAV-2(("SAV-2 [Savings]\nRealized: $5,000"))
+    OPP-6F860891OPP-6F860891{"OPP-6F860891 [Opportunity]\nSpend: $120,000 | Savings: $25,000"}
+    CAT-general_procurement[("General Procurement [Category]")]
+    DOC-5["DOC-5 [Invoice]\nAmt: $120,000"]
+    BM-general_procurement["BM-general_procurement [Benchmark]\nVal: $95,000"]
+    DOC-6["DOC-6 [Pricing Sheet]"]
+    DOC-7["DOC-7 [Pricing Sheet]"]
+    OPP-4803640EOPP-4803640E{"OPP-4803640E [Opportunity]\nSpend: $120,000 | Savings: $25,000"}
+    DOC-8["DOC-8 [Contract]"]
+    NEG-3["NEG-3 [Negotiation]\nTarget: $100,000 | Exp Sav: $20,000"]
+    SAV-3SAV-3(("SAV-3 [Savings]\nRealized: $10,001"))
+    NEG-4["NEG-4 [Negotiation]\nTarget: $100,000 | Exp Sav: $20,000"]
+    OPP-E179AF41OPP-E179AF41{"OPP-E179AF41 [Opportunity]\nSpend: $120,000 | Savings: $25,000"}
+    OPP-97D8A170OPP-97D8A170{"OPP-97D8A170 [Opportunity]\nSpend: $120,000 | Savings: $25,000"}
+    DOC-4["DOC-4 [Contract]"]
+    NEG-1["NEG-1 [Negotiation]\nTarget: $100,000 | Exp Sav: $20,000"]
+    dell_technologies -->|HAS_OPPORTUNITY| OPP-A073AA45
+    dell_technologies -->|HAS_DOCUMENT| DOC-1
+    dell_technologies -->|BELONGS_TO_CATEGORY| CAT-it_hardware
+    dell_technologies -->|HAS_INVOICE| DOC-1
+    DOC-1 -->|EXCEEDS_BENCHMARK| BM-it_hardware
+    DOC-1 -->|GENERATED_OPPORTUNITY| OPP-A073AA45
+    dell_technologies -->|HAS_DOCUMENT| DOC-2
+    dell_technologies -->|HAS_CONTRACT| DOC-2
+    dell_technologies -->|HAS_CONTRACT| DOC-3
+    dell_technologies -->|HAS_NEGOTIATION| NEG-2
+    OPP-A073AA45 -->|HAS_NEGOTIATION_PLAYBOOK| NEG-2
+    NEG-2 -->|EXPECTS_SAVINGS| SAV-2
+    dell_technologies -->|HAS_OPPORTUNITY| OPP-6F860891
+    dell_technologies -->|BELONGS_TO_CATEGORY| CAT-general_procurement
+    dell_technologies -->|HAS_INVOICE| DOC-5
+    DOC-5 -->|EXCEEDS_BENCHMARK| BM-general_procurement
+    DOC-5 -->|GENERATED_OPPORTUNITY| OPP-6F860891
+    dell_technologies -->|HAS_INVOICE| DOC-6
+    dell_technologies -->|HAS_INVOICE| DOC-7
+    dell_technologies -->|HAS_OPPORTUNITY| OPP-4803640E
+    dell_technologies -->|HAS_CONTRACT| DOC-8
+    dell_technologies -->|HAS_NEGOTIATION| NEG-3
+    OPP-6F860891 -->|HAS_NEGOTIATION_PLAYBOOK| NEG-3
+    NEG-3 -->|EXPECTS_SAVINGS| SAV-3
+    dell_technologies -->|HAS_NEGOTIATION| NEG-4
+    OPP-4803640E -->|HAS_NEGOTIATION_PLAYBOOK| NEG-4
+    dell_technologies -->|HAS_OPPORTUNITY| OPP-E179AF41
+    DOC-1 -->|EXCEEDS_BENCHMARK| BM-general_procurement
+    DOC-1 -->|GENERATED_OPPORTUNITY| OPP-E179AF41
+    dell_technologies -->|HAS_INVOICE| DOC-2
+    dell_technologies -->|HAS_INVOICE| DOC-3
+    dell_technologies -->|HAS_OPPORTUNITY| OPP-97D8A170
+    dell_technologies -->|HAS_CONTRACT| DOC-4
+    dell_technologies -->|HAS_NEGOTIATION| NEG-1
+    OPP-97D8A170 -->|HAS_NEGOTIATION_PLAYBOOK| NEG-1
+    classDef supplier fill:#38bdf8,stroke:#334155,stroke-width:2px,color:#0f172a;
+    classDef category fill:#a78bfa,stroke:#334155,stroke-width:2px,color:#0f172a;
+    classDef invoice fill:#f87171,stroke:#334155,stroke-width:2px,color:#0f172a;
+    classDef contract fill:#4ade80,stroke:#334155,stroke-width:2px,color:#0f172a;
+    classDef opportunity fill:#fbbf24,stroke:#334155,stroke-width:2px,color:#0f172a;
+    classDef negotiation fill:#f472b6,stroke:#334155,stroke-width:2px,color:#0f172a;
+    classDef savings fill:#2dd4bf,stroke:#334155,stroke-width:2px,color:#0f172a;
+    classDef benchmark fill:#94a3b8,stroke:#334155,stroke-width:2px,color:#0f172a;
+    classDef other fill:#e2e8f0,stroke:#334155,stroke-width:2px,color:#0f172a;
+    class dell_technologies supplier
+    class OPP-A073AA45 opportunity
+    class DOC-1 invoice
+    class CAT-it_hardware category
+    class BM-it_hardware benchmark
+    class DOC-2 contract
+    class DOC-3 contract
+    class NEG-2 negotiation
+    class SAV-2 savings
+    class OPP-6F860891 opportunity
+    class CAT-general_procurement category
+    class DOC-5 invoice
+    class BM-general_procurement benchmark
+    class DOC-6 pricing sheet
+    class DOC-7 pricing sheet
+    class OPP-4803640E opportunity
+    class DOC-8 contract
+    class NEG-3 negotiation
+    class SAV-3 savings
+    class NEG-4 negotiation
+    class OPP-E179AF41 opportunity
+    class OPP-97D8A170 opportunity
+    class DOC-4 contract
+    class NEG-1 negotiation

@@ -161,6 +161,12 @@ th {
 .status-badge.pending-analysis { background: #eab308; color: #000; }
 .status-badge.ready-for-negotiation { background: #3b82f6; color: #fff; }
 .status-badge.in-progress { background: #a855f7; color: #fff; }
+.status-badge.assigned { background: #475569; color: #cbd5e1; }
+.status-badge.negotiating { background: #d97706; color: #fff; }
+.status-badge.outreach-sent { background: #2563eb; color: #fff; }
+.status-badge.pending-approval { background: #ca8a04; color: #fff; }
+.status-badge.completed { background: #16a34a; color: #fff; }
+.status-badge.escalated { background: #dc2626; color: #fff; }
 
 .btn-primary {
   background: var(--primary);
@@ -284,4 +290,13 @@ th {
 }
 .nav-link:hover {
   color: white;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.spinner-small {
+  animation: spin 1s linear infinite;
 }

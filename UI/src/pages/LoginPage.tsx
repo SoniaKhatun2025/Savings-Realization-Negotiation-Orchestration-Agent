@@ -10,12 +10,21 @@ import {
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const [selectedRole, setSelectedRole] = useState<string>("Buyer");
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const roleRouteMap: Record<string, string> = {
     Buyer: "buyer",
     Finance: "finance",
     "Category Manager": "category",
     CPO: "cpo",
+  };
+
+  const personaEmails: Record<string, string> = {
+    Buyer: "sumanaiinhome@gmail.com",
+    "Category Manager": "khamraisuman7211@gmail.com",
+    Finance: "gobindakhamrai.98@gmail.com",
+    CPO: "sumankhamrai.98@gmail.com",
   };
 
   const personas = [
@@ -45,11 +54,42 @@ const LoginPage: React.FC = () => {
     },
   ];
 
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    localStorage.setItem("nexus_role", selectedRole);
-    const dashboardRoute = roleRouteMap[selectedRole] ?? "buyer";
-    navigate(`/dashboard/${dashboardRoute}`);
+    setError(null);
+    setIsLoading(true);
+
+    const email = personaEmails[selectedRole];
+    const password = "1234";
+
+    try {
+      const response = await fetch("http://localhost:8002/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.detail || "Authentication failed");
+      }
+
+      // Store authentic credentials in localStorage
+      localStorage.setItem("nexus_token", data.access_token);
+      localStorage.setItem("nexus_role", data.role);
+      localStorage.setItem("nexus_user_name", data.name);
+
+      const dashboardRoute = roleRouteMap[selectedRole] ?? "buyer";
+      navigate(`/dashboard/${dashboardRoute}`);
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message || "Failed to connect to authentication database.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -63,6 +103,21 @@ const LoginPage: React.FC = () => {
             Select your enterprise persona to continue
           </p>
         </div>
+
+        {error && (
+          <div style={{
+            background: "rgba(239, 68, 68, 0.1)",
+            border: "1px solid rgba(239, 68, 68, 0.3)",
+            color: "#f87171",
+            padding: "10px 15px",
+            borderRadius: "6px",
+            marginBottom: "20px",
+            fontSize: "0.9rem",
+            textAlign: "center"
+          }}>
+            {error}
+          </div>
+        )}
 
         <form onSubmit={handleLogin}>
           <div
@@ -119,8 +174,9 @@ const LoginPage: React.FC = () => {
             type="submit"
             className="btn-primary login-btn"
             style={{ padding: "15px", fontSize: "1.1rem" }}
+            disabled={isLoading}
           >
-            Login as {selectedRole}
+            {isLoading ? "Authenticating..." : `Login as ${selectedRole}`}
           </button>
           <button
             type="button"
@@ -134,6 +190,7 @@ const LoginPage: React.FC = () => {
               border: "1px solid rgba(255,255,255,0.15)",
             }}
             onClick={() => navigate("/")}
+            disabled={isLoading}
           >
             Back to Landing Page
           </button>

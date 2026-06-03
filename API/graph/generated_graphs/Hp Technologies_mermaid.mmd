@@ -1,0 +1,32 @@
+flowchart TD
+    hp_technologies("Hp Technologies [Supplier]")
+    OPP-987B0ECAOPP-987B0ECA{"OPP-987B0ECA [Opportunity]\nSpend: $170,000 | Savings: $30,000"}
+    CAT-it_hardware[("IT Hardware [Category]")]
+    DOC-4["DOC-4 [Invoice]\nAmt: $170,000"]
+    BM-it_hardware["BM-it_hardware [Benchmark]\nVal: $140,000"]
+    NEG-1["NEG-1 [Negotiation]\nTarget: $140,000 | Exp Sav: $30,000"]
+    SAV-1SAV-1(("SAV-1 [Savings]\nRealized: $20,000"))
+    hp_technologies -->|HAS_OPPORTUNITY| OPP-987B0ECA
+    hp_technologies -->|BELONGS_TO_CATEGORY| CAT-it_hardware
+    hp_technologies -->|HAS_INVOICE| DOC-4
+    DOC-4 -->|EXCEEDS_BENCHMARK| BM-it_hardware
+    DOC-4 -->|GENERATED_OPPORTUNITY| OPP-987B0ECA
+    hp_technologies -->|HAS_NEGOTIATION| NEG-1
+    OPP-987B0ECA -->|HAS_NEGOTIATION_PLAYBOOK| NEG-1
+    NEG-1 -->|EXPECTS_SAVINGS| SAV-1
+    classDef supplier fill:#38bdf8,stroke:#334155,stroke-width:2px,color:#0f172a;
+    classDef category fill:#a78bfa,stroke:#334155,stroke-width:2px,color:#0f172a;
+    classDef invoice fill:#f87171,stroke:#334155,stroke-width:2px,color:#0f172a;
+    classDef contract fill:#4ade80,stroke:#334155,stroke-width:2px,color:#0f172a;
+    classDef opportunity fill:#fbbf24,stroke:#334155,stroke-width:2px,color:#0f172a;
+    classDef negotiation fill:#f472b6,stroke:#334155,stroke-width:2px,color:#0f172a;
+    classDef savings fill:#2dd4bf,stroke:#334155,stroke-width:2px,color:#0f172a;
+    classDef benchmark fill:#94a3b8,stroke:#334155,stroke-width:2px,color:#0f172a;
+    classDef other fill:#e2e8f0,stroke:#334155,stroke-width:2px,color:#0f172a;
+    class hp_technologies supplier
+    class OPP-987B0ECA opportunity
+    class CAT-it_hardware category
+    class DOC-4 invoice
+    class BM-it_hardware benchmark
+    class NEG-1 negotiation
+    class SAV-1 savings
